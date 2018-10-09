@@ -1,7 +1,7 @@
 <template>
     <div>
-    <h1>Card component here!</h1>
-    <img src="../images/badger.jpg">
+        <img :src="fullImageSource"
+             class="card-img">
     </div>
 </template>
 
@@ -9,11 +9,26 @@
     export default {
         name: "Card",
         props: {
-
+            details: Object
+        },
+        data () {
+          return {
+              linkroot: "../images/"
+          }
+        },
+        computed: {
+              fullImageSource: function () {
+                  return require(`@/images/${this.details.image}`);
+              }
         }
     }
 </script>
 
 <style scoped>
+
+    .card-img {
+        height: 12rem;
+        width: 18rem;
+    }
 
 </style>

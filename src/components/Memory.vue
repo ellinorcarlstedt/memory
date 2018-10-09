@@ -1,8 +1,10 @@
 <template>
   <div>
     <h1>Memory</h1>
-    <Card></Card>
-  </div>
+      <div class="card-wrapper">
+        <Card v-for="item in cards" v-bind:details="item"></Card>
+      </div>
+    </div>
 </template>
 
 <script>
@@ -15,40 +17,34 @@ export default {
     },
     data () {
         return {
-            cards: [
-                {
-                    image: 'badger.jpg',
-                    flipped: false
-                },
-                {
-                    image: 'cat.jpg',
-                    flipped: false
-                },
-                {
-                    image: 'cow.jpg',
-                    flipped: false
-                },
-                {
-                    image: 'dog.jpg',
-                    flipped: false
-                },
-                {
-                    image: 'frog.jpg',
-                    flipped: false
-                },
-                {
-                    image: 'meerkat.jpg',
-                    flipped: false
-                },
-                {
-                    image: 'monkey.jpg',
-                    flipped: false
-                },
-                {
-                    image: 'turtle.jpg',
-                    flipped: false
-                },
+            cardImages: [
+                'badger.jpg',
+                'cat.jpg',
+                'cow.jpg',
+                'dog.jpeg',
+                'frog.jpg',
+                'meerkat.jpg',
+                'monkey.jpg',
+                'turtle.jpg'
             ]
+        }
+    },
+    computed: {
+        cards: function () {
+            const copiedImages = this.cardImages.slice(0);
+            const doubleImages = copiedImages.concat(this.cardImages);
+            let cards = [];
+            for(let img of doubleImages) {
+                cards.push({
+                    image: img,
+                    flipped: false,
+                    order: Math.floor(Math.random() * 100)
+                });
+            }
+            const cardsInRandomOrder = cards.sort(function(a, b){
+                return a.order - b.order}
+            );
+            return cardsInRandomOrder;
         }
     }
 }
@@ -57,18 +53,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+ .card-wrapper {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   justify-content: center;
+ }
 </style>
