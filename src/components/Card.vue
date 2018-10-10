@@ -18,7 +18,8 @@
     export default {
         name: "Card",
         props: {
-            img: String
+            img: String,
+            twoCardsFlipped: Boolean
         },
         data () {
           return {
@@ -27,9 +28,14 @@
         },
         methods: {
             flipCard() {
-                if (!this.flipped) {
+                if(!this.twoCardsFlipped) {
                     this.flipped = !this.flipped;
                     this.$emit('cardShown');
+                }
+            },
+            reFlipCard() {
+                if (!this.flipped) {
+                    this.flipped = !this.flipped;
                 } else {
                     this.flipped = !this.flipped;
                 }

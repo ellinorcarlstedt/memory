@@ -5,7 +5,8 @@
         <Card v-for="(item, index) in cards"
               v-bind:key="index"
               v-bind:img="item.image"
-              v-on:cardShown="saveFlippedCard(item.image, index)"
+              v-bind:twoCardsFlipped="twoCardsFlipped"
+              v-on:cardShown="handleFlippedCards(item.image, index)"
               v-bind:ref="index">
         </Card>
       </div>
@@ -20,6 +21,7 @@ export default {
     components: {
       Card
     },
+
     data () {
         return {
             cardImages: [
@@ -35,21 +37,28 @@ export default {
             flippedCard: {
                 cardImg: '',
                 index: ''
-            }
+            },
+            twoCardsFlipped: false
         }
     },
+
     methods: {
-        saveFlippedCard(cardImg, index) {
+        handleFlippedCards(cardImg, index) {
             if (!this.flippedCard.cardImg) {
                 this.flippedCard.cardImg = cardImg;
                 this.flippedCard.index = index;
             } else if (this.flippedCard.cardImg === cardImg) {
-                console.log("Hoorayyy!");
+                this.flippedCard.cardImg = '';
+                this.flippedCard.index = '';
             } else {
+                this.twoCardsFlipped = true;
                   setTimeout(() => {
-                      this.$refs[index][0].flipCard();
-                      this.$refs[this.flippedCard.index][0].flipCard();
-                  }, 2000);
+                      this.$refs[index][0].reFlipCard();
+                      this.$refs[this.flippedCard.index][0].reFlipCard();
+                      this.flippedCard.cardImg = '';
+                      this.flippedCard.index = '';
+                      this.twoCardsFlipped = false;
+                  }, 1500);
             }
         }
     },
