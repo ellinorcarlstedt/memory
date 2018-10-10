@@ -2,7 +2,12 @@
   <div>
     <h1>Memory</h1>
       <div class="card-wrapper">
-        <Card v-for="item in cards" v-bind:img="item.image"></Card>
+        <Card v-for="(item, index) in cards"
+              v-bind:key="index"
+              v-bind:img="item.image"
+              v-on:cardShown="saveFlippedCard(item.image, index)"
+              v-bind:ref="index">
+        </Card>
       </div>
     </div>
 </template>
@@ -26,7 +31,26 @@ export default {
                 'meerkat.jpg',
                 'monkey.jpg',
                 'turtle.jpg'
-            ]
+            ],
+            flippedCard: {
+                cardImg: '',
+                index: ''
+            }
+        }
+    },
+    methods: {
+        saveFlippedCard(cardImg, index) {
+            if (!this.flippedCard.cardImg) {
+                this.flippedCard.cardImg = cardImg;
+                this.flippedCard.index = index;
+            } else if (this.flippedCard.cardImg === cardImg) {
+                console.log("Hoorayyy!");
+            } else {
+                  setTimeout(() => {
+                      this.$refs[index][0].flipCard();
+                      this.$refs[this.flippedCard.index][0].flipCard();
+                  }, 2000);
+            }
         }
     },
     computed: {

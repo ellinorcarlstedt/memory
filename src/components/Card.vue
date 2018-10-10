@@ -1,16 +1,15 @@
 <template>
     <transition-group name="flip">
-    <div class="card"
-         key="image"
-         v-show="flipped"
-         v-on:click="flipCard">
-        <img :src="fullImageSource"
-             class="card-img">
-    </div>
-        <div class="card"
+        <div class="card card-backside"
              key="noImage"
              v-show="!flipped"
              v-on:click="flipCard">
+        </div>
+        <div class="card"
+             key="image"
+             v-show="flipped">
+            <img :src="fullImageSource"
+                 class="card-img">
         </div>
     </transition-group>
 </template>
@@ -28,7 +27,12 @@
         },
         methods: {
             flipCard() {
-                this.flipped = !this.flipped;
+                if (!this.flipped) {
+                    this.flipped = !this.flipped;
+                    this.$emit('cardShown');
+                } else {
+                    this.flipped = !this.flipped;
+                }
             }
         },
         computed: {
@@ -59,8 +63,12 @@
         overflow: hidden;
     }
 
+    .card-backside {
+        background-color: lightblue;
+    }
+
     .flip-enter-active {
-        transition: all 0.4s ease;
+        transition: all 0.5s ease;
     }
 
     .flip-leave-active {
