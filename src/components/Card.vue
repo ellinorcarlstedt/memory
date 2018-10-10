@@ -9,26 +9,17 @@
     export default {
         name: "Card",
         props: {
-            details: Object
+            img: String
         },
         data () {
           return {
-              cardDetails: {},
-              linkroot: "../images/"
+              flipped: false,
           }
-        },
-        methods: {
-            putPropsInData () {
-                this.cardDetails = this.details;
-            }
         },
         computed: {
               fullImageSource: function () {
-                  return require(`@/images/${this.details.image}`);
+                  return require(`@/images/${this.img}`);
               }
-        },
-        created() {
-            this.putPropsInData();
         }
     }
 </script>

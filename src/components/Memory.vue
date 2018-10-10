@@ -2,7 +2,7 @@
   <div>
     <h1>Memory</h1>
       <div class="card-wrapper">
-        <Card v-for="item in cards" v-bind:details="item"></Card>
+        <Card v-for="item in cards" v-bind:img="item.image"></Card>
       </div>
     </div>
 </template>
@@ -37,7 +37,6 @@ export default {
             for(let img of doubleImages) {
                 cards.push({
                     image: img,
-                    flipped: false,
                     order: Math.floor(Math.random() * 100)
                 });
             }
