@@ -4,10 +4,10 @@
       <div class="card-wrapper">
         <Card v-for="(item, index) in cards"
               v-bind:key="index"
+              v-bind:ref="index"
               v-bind:img="item.image"
               v-bind:twoCardsFlipped="twoCardsFlipped"
-              v-on:cardShown="handleFlippedCards(item.image, index)"
-              v-bind:ref="index">
+              v-on:cardShown="handleFlippedCards(item.image, index)">
         </Card>
       </div>
     </div>
@@ -48,8 +48,12 @@ export default {
                 this.flippedCard.cardImg = cardImg;
                 this.flippedCard.index = index;
             } else if (this.flippedCard.cardImg === cardImg) {
+                this.twoCardsFlipped = true;
                 this.flippedCard.cardImg = '';
                 this.flippedCard.index = '';
+                setTimeout(() => {
+                    this.twoCardsFlipped = false;
+                }, 1500);
             } else {
                 this.twoCardsFlipped = true;
                   setTimeout(() => {

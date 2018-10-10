@@ -28,7 +28,7 @@
         },
         methods: {
             flipCard() {
-                if(!this.twoCardsFlipped) {
+                if (!this.twoCardsFlipped) {
                     this.flipped = !this.flipped;
                     this.$emit('cardShown');
                 }
@@ -74,7 +74,7 @@
     }
 
     .flip-enter-active {
-        transition: all 0.5s ease;
+        transition: all 0.4s ease;
     }
 
     .flip-leave-active {
