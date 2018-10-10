@@ -13,13 +13,22 @@
         },
         data () {
           return {
+              cardDetails: {},
               linkroot: "../images/"
           }
+        },
+        methods: {
+            putPropsInData () {
+                this.cardDetails = this.details;
+            }
         },
         computed: {
               fullImageSource: function () {
                   return require(`@/images/${this.details.image}`);
               }
+        },
+        created() {
+            this.putPropsInData();
         }
     }
 </script>
