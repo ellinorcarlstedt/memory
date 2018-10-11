@@ -38,6 +38,7 @@ export default {
                 cardImg: '',
                 index: ''
             },
+            cardsMatched: [],
             twoCardsFlipped: false
         }
     },
@@ -48,6 +49,7 @@ export default {
                 this.flippedCard.cardImg = cardImg;
                 this.flippedCard.index = index;
             } else if (this.flippedCard.cardImg === cardImg) {
+                this.cardsMatched.push(cardImg);
                 this.twoCardsFlipped = true;
                 this.flippedCard.cardImg = '';
                 this.flippedCard.index = '';

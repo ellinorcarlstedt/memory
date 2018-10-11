@@ -26,6 +26,7 @@
               flipped: false,
           }
         },
+
         methods: {
             flipCard() {
                 if (!this.twoCardsFlipped) {
@@ -41,6 +42,7 @@
                 }
             }
         },
+
         computed: {
               fullImageSource: function () {
                   return require(`@/images/${this.img}`);
