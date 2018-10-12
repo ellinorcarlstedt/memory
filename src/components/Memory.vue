@@ -1,100 +1,93 @@
 <template>
-  <div>
-    <h1>Memory</h1>
-      <div class="card-wrapper">
-        <Card v-for="(item, index) in cards"
-              v-bind:key="index"
-              v-bind:ref="index"
-              v-bind:img="item.image"
-              v-bind:twoCardsFlipped="twoCardsFlipped"
-              v-on:cardShown="handleFlippedCards(item.image, index)">
-        </Card>
-      </div>
+    <div>
+        <h1 class="main-heading">Memory</h1>
+        <div class="card-wrapper">
+            <Card v-for="(item, index) in cards"
+                  :key="index"
+                  ref="card"
+                  :img="item"
+                  :twoCardsFlipped="twoCardsFlipped"
+                  @cardShown="handleFlippedCards(item, index)">
+            </Card>
+        </div>
     </div>
 </template>
 
 <script>
-import Card from './Card.vue';
+    import Card from './Card.vue';
 
-export default {
-    name: 'Memory',
-    components: {
-      Card
-    },
+    export default {
+        name: 'Memory',
+        components: {
+            Card
+        },
 
-    data () {
-        return {
-            cardImages: [
-                'badger.jpg',
-                'cat.jpg',
-                'cow.jpg',
-                'dog.jpeg',
-                'frog.jpg',
-                'meerkat.jpg',
-                'monkey.jpg',
-                'turtle.jpg'
-            ],
-            flippedCard: {
-                cardImg: '',
-                index: ''
-            },
-            cardsMatched: [],
-            twoCardsFlipped: false
-        }
-    },
-
-    methods: {
-        handleFlippedCards(cardImg, index) {
-            if (!this.flippedCard.cardImg) {
-                this.flippedCard.cardImg = cardImg;
-                this.flippedCard.index = index;
-            } else if (this.flippedCard.cardImg === cardImg) {
-                this.cardsMatched.push(cardImg);
-                this.twoCardsFlipped = true;
-                this.flippedCard.cardImg = '';
-                this.flippedCard.index = '';
-                setTimeout(() => {
-                    this.twoCardsFlipped = false;
-                }, 1500);
-            } else {
-                this.twoCardsFlipped = true;
-                  setTimeout(() => {
-                      this.$refs[index][0].reFlipCard();
-                      this.$refs[this.flippedCard.index][0].reFlipCard();
-                      this.flippedCard.cardImg = '';
-                      this.flippedCard.index = '';
-                      this.twoCardsFlipped = false;
-                  }, 1500);
+        data() {
+            return {
+                cardImages: [
+                    'badger.jpg',
+                    'cat.jpg',
+                    'cow.jpg',
+                    'dog.jpeg',
+                    'frog.jpg',
+                    'meerkat.jpg',
+                    'monkey.jpg',
+                    'turtle.jpg'
+                ],
+                cards: [],
+                flippedCard: {
+                    cardImg: '',
+                    index: ''
+                },
+                cardsMatched: [],
+                twoCardsFlipped: false
             }
-        }
-    },
-    computed: {
-        cards: function () {
-            const copiedImages = this.cardImages.slice(0);
-            const doubleImages = copiedImages.concat(this.cardImages);
-            let cards = [];
-            for(let img of doubleImages) {
-                cards.push({
-                    image: img,
-                    order: Math.floor(Math.random() * 100)
-                });
+        },
+
+        methods: {
+            handleFlippedCards(cardImg, index) {
+                if (!this.flippedCard.cardImg) {
+                    this.flippedCard.cardImg = cardImg;
+                    this.flippedCard.index = index;
+                } else if (this.flippedCard.cardImg === cardImg) {
+                    this.cardsMatched.push(cardImg);
+                    this.twoCardsFlipped = true;
+                    this.flippedCard.cardImg = '';
+                    this.flippedCard.index = '';
+                    setTimeout(() => {
+                        this.twoCardsFlipped = false;
+                    }, 1500);
+                } else {
+                    this.twoCardsFlipped = true;
+                    this.$refs.card[index].toggleShakeAnimation();
+                    this.$refs.card[this.flippedCard.index].toggleShakeAnimation();
+                    setTimeout(() => {
+                        this.$refs.card[index].reFlipCard();
+                        this.$refs.card[this.flippedCard.index].reFlipCard();
+                        this.flippedCard.cardImg = '';
+                        this.flippedCard.index = '';
+                        this.twoCardsFlipped = false;
+                    }, 1500);
+                }
             }
-            const cardsInRandomOrder = cards.sort(function(a, b){
-                return a.order - b.order}
-            );
-            return cardsInRandomOrder;
+        },
+        created() {
+            const doubleImages = [...this.cardImages, ...this.cardImages];
+            this.cards = doubleImages.sort(() => Math.random() - 0.5);
         }
     }
-}
 
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
- .card-wrapper {
-   display: flex;
-   flex-direction: row;
-   flex-wrap: wrap;
-   justify-content: center;
- }
+    .main-heading {
+        font-family: "Nanum Myeongjo", "Helvetica";
+    }
+
+    .card-wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 </style>

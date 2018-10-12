@@ -3,9 +3,10 @@
         <div class="card card-backside"
              key="noImage"
              v-show="!flipped"
-             v-on:click="flipCard">
+             @click="flipCard">
         </div>
         <div class="card"
+             :class="{ shake: shakeAnimation }"
              key="image"
              v-show="flipped">
             <img :src="fullImageSource"
@@ -24,6 +25,7 @@
         data () {
           return {
               flipped: false,
+              shakeAnimation: false
           }
         },
 
@@ -35,11 +37,13 @@
                 }
             },
             reFlipCard() {
-                if (!this.flipped) {
-                    this.flipped = !this.flipped;
-                } else {
-                    this.flipped = !this.flipped;
-                }
+                    this.flipped = false;
+            },
+            toggleShakeAnimation () {
+                this.shakeAnimation = !this.shakeAnimation;
+                setTimeout(() =>{
+                    this.shakeAnimation = !this.shakeAnimation;
+                }, 1500)
             }
         },
 
@@ -86,9 +90,42 @@
     .flip-enter, .flip-leave {
         transform: rotateY(180deg);
         opacity: 0;
-
     }
 
+    .shake {
+        animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+    }
 
+/*    .enlarge {
+        animation-name: enlarge;
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+    }
+
+    @keyframes enlarge {
+        from {height: 12rem; width: 18rem}
+        to {height: 15rem; width: 22.5rem}
+    }*/
+
+    @keyframes shake {
+        10%, 90% {
+            transform: translate3d(-1px, 0, 0);
+        }
+
+        20%, 80% {
+            transform: translate3d(2px, 0, 0);
+        }
+
+        30%, 50%, 70% {
+            transform: translate3d(-4px, 0, 0);
+        }
+
+        40%, 60% {
+            transform: translate3d(4px, 0, 0);
+        }
+    }
 
 </style>
